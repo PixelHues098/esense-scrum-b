@@ -1,0 +1,41 @@
+STUFF TODO BEFORE STUFF GETS FLOODED
+
+what is the difference between kanban and scrum
+
+scrum has sprints, kanban doesnt
+
+sprint has backlogs
+
+if we consider kanban as just a ongoing backlog, then they're the same
+
+if they're the same, what does a project consist of?
+	sprints, backlog is essentialy sprint 0 or -1
+
+Project should contain the type of project instead of having separate tables for each
+
+Sprint and Swimlane will contain id of project
+
+Issues will contain ids of project, sprint, swimlane
+
+Default value for sprint is project id + 0 (id for sprint representing backlog)
+
+Default value for swimlane is project id + 0 (id for to do)
+
+Structure of sprint
+ - Name
+ - Start/End date
+ - Issues
+ - Reports
+ - 
+
+What to do with project?
+ + Add listed users to added members
+ + Create function for getting project
+ + Create base swimlane (todo(0), in progress(1), done(2))
+ + Create base sprint 0 (will act as backlog for scrum and always active for kanban)
+
+What to do for 1/9/2023?
+ - Create a class for each class on backend (Project, Issue, Sprint, Swimlane) to desrialize data from request
+ - Make frontend display real data from backend for backlog page
+ - Create backend functions for creating Issues
+ - Create frontend for creating Issues
