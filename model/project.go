@@ -19,6 +19,7 @@ type Project struct {
 	Issues       []Issue
 	Sprints      []Sprint
 	Swimlanes    []Swimlane
+	Epics        []Epic
 	ActiveSprint uint
 }
 
@@ -50,24 +51,9 @@ func (project *Project) IsUserMember(idToCheck uint) bool {
 }
 
 func (project *Project) GenerateNewIssueId() string {
-	projectKey := project.Key
-	idOffset := 1
-
-	projectIssueCnt := len(project.Issues) + idOffset
-	projectIssueCntStr := strconv.Itoa(projectIssueCnt)
-
-	newIssueId := projectKey + "-" + projectIssueCntStr
-
-	for project.CheckIfIssueIdDuplicate(newIssueId) {
-		idOffset++
-
-		projectIssueCnt = len(project.Issues) + idOffset
-		projectIssueCntStr = strconv.Itoa(projectIssueCnt)
-
-		newIssueId = projectKey + "-" + projectIssueCntStr
-	}
-
-	return newIssueId
+	var projectIssues []Issue
+	database.Database.Unscoped().Where("project_id = ?", project.ID).Find(&projectIssues)
+	return project.Key + "-" + strconv.Itoa(len(projectIssues)+1)
 }
 
 func (project *Project) CheckIfIssueIdDuplicate(issueId string) bool {
@@ -103,7 +89,7 @@ func (project *Project) CreateBaseSwimlane() error {
 	return nil
 }
 
-func (project *Project) CreateBacklog() error {
+func (project *Project) CreateBacklog() (Sprint, error) {
 
 	var backlog = Sprint{
 		Name:        "Backlog",
@@ -112,10 +98,10 @@ func (project *Project) CreateBacklog() error {
 		CreatorID:   project.OwnerID,
 	}
 
-	_, err := backlog.Save()
+	savedBacklog, err := backlog.Save()
 	if err != nil {
-		return err
+		return Sprint{}, err
 	}
 
-	return nil
+	return *savedBacklog, nil
 }

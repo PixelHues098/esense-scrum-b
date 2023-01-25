@@ -37,6 +37,7 @@ func AddIssue(context *gin.Context) {
 	}
 
 	var assigneeId = model.GetValidAssigneeID(requestBody.AssigneeID)
+	var epicId = model.GetValidEpicID(requestBody.EpicID)
 
 	var issueToCreate = model.Issue{
 		ID:          project.GenerateNewIssueId(),
@@ -50,7 +51,7 @@ func AddIssue(context *gin.Context) {
 		Points:      requestBody.Points,
 		Priority:    requestBody.Priority,
 		SwimlaneID:  todoSwimlane.ID,
-		EpicID:      nil,
+		EpicID:      epicId,
 	}
 
 	newIssue, err := issueToCreate.Save()
@@ -88,6 +89,7 @@ func UpdateIssue(context *gin.Context) {
 	}
 
 	var assigneeId = model.GetValidAssigneeID(requestBody.AssigneeID)
+	var epicId = model.GetValidEpicID(requestBody.EpicID)
 
 	err = database.Database.Model(&issueToUpdate).Updates(map[string]interface{}{
 		"Title":       requestBody.Title,
@@ -95,6 +97,7 @@ func UpdateIssue(context *gin.Context) {
 		"Type":        requestBody.Type,
 		"AssigneeID":  assigneeId,
 		"SprintID":    requestBody.SprintID,
+		"EpicID":      epicId,
 		"Points":      requestBody.Points,
 		"Priority":    requestBody.Priority,
 	}).Error

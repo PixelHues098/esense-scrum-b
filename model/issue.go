@@ -38,6 +38,13 @@ func GetValidAssigneeID(assigneeId uint) *uint {
 	return &assigneeId
 }
 
+func GetValidEpicID(epicId uint) *uint {
+	if epicId == 0 {
+		return nil
+	}
+	return &epicId
+}
+
 func (project *Project) GetToDoSwimlane() (Swimlane, error) {
 	for _, swimlane := range project.Swimlanes {
 		if swimlane.Name == "To Do" {

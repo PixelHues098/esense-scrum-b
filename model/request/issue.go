@@ -7,6 +7,7 @@ type CreateIssue struct {
 	ProjectID   uint   `json:"projectId" binding:"required"`
 	AssigneeID  uint   `json:"assigneeId"`
 	SprintID    uint   `json:"sprintId"`
+	EpicID      uint   `json:"epicId"`
 	Points      uint   `json:"points"`
 	Priority    string `json:"priority"`
 }
@@ -19,6 +20,7 @@ type UpdateIssue struct {
 	ProjectID   uint   `json:"projectId" binding:"required"`
 	AssigneeID  uint   `json:"assigneeId"`
 	SprintID    uint   `json:"sprintId" binding:"required"`
+	EpicID      uint   `json:"epicId"`
 	Points      uint   `json:"points" binding:"required"`
 	Priority    string `json:"priority" binding:"required"`
 }

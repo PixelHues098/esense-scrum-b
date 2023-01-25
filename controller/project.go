@@ -52,9 +52,15 @@ func AddProject(context *gin.Context) {
 		return
 	}
 
-	err = savedProject.CreateBacklog()
+	backlog, err := savedProject.CreateBacklog()
 	if helper.DidContextErr(err, context) {
 		return
+	}
+
+	if requestBody.Type == "kanban" {
+		err = database.Database.Model(&savedProject).Updates(map[string]interface{}{
+			"ActiveSprint": backlog.ID,
+		}).Error
 	}
 }
 
